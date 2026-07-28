@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="Todo.css">
+    <link rel="shortcut icon" href="Todo.png" type="image/png">
+</head>
+<body>
+<div class="container">
+    <h1>📝 To-Do App</h1>
+    <p class="subtitle">Organize your tasks and stay productive.</p>
+    <div class="input-area">
+        <input type="text" id="taskInput" placeholder="Enter a new task...">
+        <p id="Null"></p>
+        <button id="addBtn">Add Task</button>
+    </div>
+    <hr>
+    <h2>To-Do List</h2>
+    <p id="Emptymessage">
+        ✨No tasks yet. Add one to get started!
+    </p>
+    <ul id="taskList">  
+    </ul>
+    <hr>
+    <div class="stats">
+        <div>
+            <h3 id="total">0</h3>
+            <p>Total</p>
+        </div>
+        <div>
+            <h3 id="completed">0</h3>
+            <p>Completed</p>
+        </div>
+        <div>
+            <h3 id="pending">0</h3>
+            <p>Pending</p>
+        </div>
+    </div>
+</div>
+<footer>
+    ©️2026 Temitope Emmanuel - ToDo App
+</footer>
+<script src="Todo.js"></script>
+</body>
+</html>

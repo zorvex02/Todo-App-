@@ -1,0 +1,179 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body{
+    background:#eef2ff;
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:30px;
+}
+.container{
+    width:420px;
+    background:#fff;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+@keyframes shake{
+    0%{transform: translateX(0)};
+    25%{transform: translateX(-8px); }
+    50%{transform: translateX(8px); }
+    75%{transform: translateX(-8px); }
+    100%{transform: translateX(0); }
+}
+.shake {
+    animation: shake 0.3s;
+}
+h1{
+    text-align:center;
+    color:#4f46e5;
+    margin-bottom:8px;
+}
+.subtitle{
+    text-align:center;
+    color:#777;
+    margin-bottom:25px;
+}    
+#Emptymessage{
+    display: block;
+    text-align: center;
+
+}   
+.input-area{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+input{
+    padding:15px;
+    border:2px solid #ddd;
+    border-radius:12px;
+    outline:none;
+    font-size:16px;
+}
+input:focus{
+    border-color:#4f46e5;
+}
+#Null{
+    color: rgb(226, 0, 0);
+    display: block;
+    padding-left: 10px;
+}
+#addBtn{
+    padding:14px;
+    background:#4f46e5;
+    color:white;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+#addBtn:hover{
+    background:#4338ca;
+}
+hr{
+    margin:25px 0;
+    border:1px solid #eee;
+}
+h2{
+    margin-bottom:15px;
+    color:#333;
+}
+ul{
+    list-style:none;
+}
+ul p{
+    display: block;
+    text-align: center;
+}
+.Newtask{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    margin-bottom:12px;
+    background-color:#f8f8ff;
+    border-radius:12px;
+}
+.Wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.done{
+    background-color:  rgb(0, 131, 0);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition:.3s;
+}
+:hover.done{
+    background-color: rgb(6, 86, 6);
+}  
+.edit{
+    background-color: rgb(177, 120, 13);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition:.3s;
+}
+:hover.edit{
+    background-color: rgb(150, 111  , 10);
+}  
+.delete{
+    background-color: rgb(172, 5, 5);
+    color: #fff;
+    border: none;
+    transition:.3s;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+:hover.delete{
+    background-color: rgb(134, 10, 10);
+}  
+.Undo{
+    background-color: rgb(0, 131, 0);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition:.3s;
+}
+.Undo:hover{
+    background-color: rgb(6, 86, 6);
+}   
+.task{
+    font-size:16px;
+}
+.stats{
+    display:flex;
+    justify-content:space-between;
+    text-align:center;
+}
+.stats h3{
+    color:#4f46e5;
+    font-size:26px;
+}
+.stats p{
+    color:#777;
+}
+footer{
+    margin-top: 25px;
+    color: #5e419d;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}       
