@@ -25,7 +25,7 @@ A simple and responsive To-Do App built with **HTML, CSS, and JavaScript**.
 
 ## Preview
 
-![To-Do App Preview](todo.png)
+![To-Do App Preview](Todo.png)
 
 ## Project Structure
 
