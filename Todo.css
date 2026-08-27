@@ -63,6 +63,8 @@ input:focus{
 #Null{
     color: rgb(226, 0, 0);
     display: block;
+    font-size: 14px;
+    font-weight: 600;
     padding-left: 10px;
 }
 #addBtn{

@@ -1,111 +1,117 @@
+const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let editingTaskId = null;
 
-document.getElementById("addBtn").onclick = function(){  
-  let display = document.getElementById("taskInput").value.trim();  
-  let Null = document.getElementById("Null");  
-  if(display === ""){  
-    document.querySelector(".container").classList.add("shake");  
-    Null.innerHTML = "Task can't be empty";  
-    setTimeout(function(){  
-      document.querySelector(".container").classList.remove("shake");  
-    },300);  
-  }  
-  
-  else{  
-    Null.innerHTML = "";  
-    let Newtask = document.createElement("li");  
-    Newtask.className = "Newtask";  
-    let Span = document.createElement("span");  
-    Span.innerHTML = display;  
-    let Wrapper = document.createElement("div");  
-    Wrapper.className = "Wrapper";  
-    let btn1 = document.createElement("button");  
-    btn1.innerHTML = "DONE";  
-    btn1.className = "done";  
-    let btn2 = document.createElement("button");  
-    btn2.innerHTML = "EDIT";  
-    btn2.className = "edit";  
-    let btn3 = document.createElement("button");  
-    btn3.innerHTML = "DEL";  
-    btn3.className = "delete";  
-    btn1.onclick = function(){  
-      let completed = Number(document.getElementById("completed").innerHTML);  
-      completed = completed + 1;  
-      document.getElementById("completed").innerHTML = completed;  
-      let pending = Number(document.getElementById("pending").innerHTML);  
-      pending = pending - 1;  
-      document.getElementById("pending").innerHTML = pending;  
-      document.getElementById("total").innerHTML = completed + pending;  
-      let Undo = document.createElement("button");  
-      Undo.innerHTML = "UNDO";  
-      Undo.className = "Undo";  
-      let del = document.createElement("button");  
-      del.innerHTML = "DEL";  
-      del.className = "delete";  
-      Wrapper.innerHTML = "";  
-      Wrapper.appendChild(Undo);  
-      Wrapper.appendChild(del);  
-      Undo.onclick = function(){  
-        Wrapper.innerHTML = "";  
-        Wrapper.appendChild(btn1);  
-        Wrapper.appendChild(btn2);  
-        Wrapper.appendChild(btn3);  
-        let completed = Number(document.getElementById("completed").innerHTML);  
-        completed = completed - 1;  
-        document.getElementById("completed").innerHTML = completed;  
-        let pending = Number(document.getElementById("pending").innerHTML);  
-        pending = pending + 1;  
-        document.getElementById("pending").innerHTML = pending;  
-        document.getElementById("total").innerHTML = completed + pending;  
-      }  
-      del.onclick = function(){  
-        let taskList = document.getElementById("taskList");  
-        Newtask.remove();  
-        let pending = Number(document.getElementById("pending").innerHTML);  
-        document.getElementById("pending").innerHTML = pending;  
-        let completed = Number(document.getElementById("completed").innerHTML);  
-        completed = completed - 1;  
-        document.getElementById("completed").innerHTML = completed  
-        document.getElementById("total").innerHTML = pending + completed;  
-        if(taskList.children.length === 0){  
-          document.getElementById("Emptymessage").style.display = "block";  
-        }  
-      }  
-    }  
-    btn2.onclick = function(){  
-      document.getElementById("taskInput").value = Span.innerHTML;  
-      Newtask.remove();  
-      let pending = Number(document.getElementById("pending").innerHTML);  
-      pending = pending - 1;  
-      document.getElementById("pending").innerHTML = pending;  
-      let completed = Number(document.getElementById("completed").innerHTML);  
-      document.getElementById("total").innerHTML = pending + completed;  
-      if(document.getElementById("taskList").children.length === 0){  
-        document.getElementById("Emptymessage").style.display = "block";  
-      }  
-    }  
-    btn3.onclick = function(){  
-      Newtask.remove();  
-      let pending = Number(document.getElementById("pending").innerHTML);  
-      pending = pending - 1;  
-      document.getElementById("pending").innerHTML = pending;  
-      let completed = Number(document.getElementById("completed").innerHTML);  
-      document.getElementById("total").innerHTML = pending + completed;  
-      if(document.getElementById("taskList").children.length === 0){  
-        document.getElementById("Emptymessage").style.display = "block";  
-      }  
-    } 
-    Newtask.appendChild(Span);  
-    Newtask.appendChild(Wrapper);  
-    Wrapper.appendChild(btn1);  
-    Wrapper.appendChild(btn2);  
-    Wrapper.appendChild(btn3);  
-    document.getElementById("Emptymessage").style.display = "none";  
-    document.getElementById("taskList").appendChild(Newtask);  
-    document.getElementById("taskInput").value = "";  
-    let pending = Number(document.getElementById("pending").innerHTML);  
-    pending = pending + 1;  
-    document.getElementById("pending").innerHTML = pending;  
-    let completed = Number(document.getElementById("completed").innerHTML);  
-    document.getElementById("total").innerHTML = pending + completed;  
-  }  
+function createTask(task) {
+  const Newtask = document.createElement("li");
+  Newtask.className = "Newtask";
+  const Span = document.createElement("span");
+  Span.innerHTML = task.text;
+  const Wrapper = document.createElement("div");
+  Wrapper.className = "Wrapper";
+  const btn1 = document.createElement("button");
+  btn1.innerHTML = task.completed ? "UNDO" : "DONE";
+  btn1.className = task.completed ? "Undo" : "done";
+  const btn2 = document.createElement("button");
+  btn2.innerHTML = "EDIT";
+  btn2.className = "edit";
+  const btn3 = document.createElement("button");
+  btn3.innerHTML = "DEL";
+  btn3.className = "delete";
+  btn1.onclick = function() {
+    const taskIndex = tasks.findIndex(function(item) {
+      return item.id === task.id;
+    });
+    tasks[taskIndex].completed = !tasks[taskIndex].completed;
+    Newtask.remove();
+    createTask(tasks[taskIndex]);
+    const completed = tasks.filter(function(item) {
+      return item.completed === true;
+    }).length;
+    const pending = tasks.filter(function(item) {
+      return item.completed === false;
+    }).length;
+    document.getElementById("completed").innerHTML = completed;
+    document.getElementById("pending").innerHTML = pending;
+    document.getElementById("total").innerHTML = tasks.length;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  };
+  btn2.onclick = function() {
+    document.getElementById("taskInput").value = task.text;
+    editingTaskId = task.id;
+    document.getElementById("taskInput").focus();
+  };
+  btn3.onclick = function() {
+    const taskIndex = tasks.findIndex(function(item) {
+      return item.id === task.id;
+    });
+    tasks.splice(taskIndex, 1);
+    Newtask.remove();
+    const completed = tasks.filter(function(item) {
+      return item.completed === true;
+    }).length;
+    const pending = tasks.filter(function(item) {
+      return item.completed === false;
+    }).length;
+    document.getElementById("completed").innerHTML = completed;
+    document.getElementById("pending").innerHTML = pending;
+    document.getElementById("total").innerHTML = tasks.length;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    if (tasks.length === 0) {
+      document.getElementById("Emptymessage").style.display = "block";
+    }
+  };
+  Newtask.appendChild(Span);
+  Newtask.appendChild(Wrapper);
+  Wrapper.appendChild(btn1);
+  if (!task.completed) {
+    Wrapper.appendChild(btn2);
+  }
+  Wrapper.appendChild(btn3);
+  document.getElementById("Emptymessage").style.display = "none";
+  document.getElementById("taskList").appendChild(Newtask);
 }
+document.getElementById("addBtn").onclick = function() {
+  const display = document.getElementById("taskInput").value.trim();
+  const Null = document.getElementById("Null");
+  if (display === "") {
+    document.querySelector(".container").classList.add("shake");
+    Null.innerHTML = "Task can't be empty";
+    setTimeout(function() {
+      document.querySelector(".container").classList.remove("shake");
+    }, 300);
+    return;
+  }
+  Null.innerHTML = "";
+  if (editingTaskId !== null) {
+    const taskIndex = tasks.findIndex(function(item) {
+      return item.id === editingTaskId;
+    });
+    tasks[taskIndex].text = display;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    editingTaskId = null;
+    document.getElementById("taskInput").value = "";
+    location.reload();
+    return;
+  }
+  tasks.push({
+    id: Date.now(),
+    text: display,
+    completed: false
+  });
+  createTask(tasks[tasks.length - 1]);
+  document.getElementById("taskInput").value = "";
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+tasks.forEach(function(task) {
+  createTask(task);
+});
+const completedTasks = tasks.filter(function(task) {
+  return task.completed === true;
+}).length;
+const pendingTasks = tasks.filter(function(task) {
+  return task.completed === false;
+}).length;
+
+document.getElementById("completed").innerHTML = completedTasks;
+document.getElementById("pending").innerHTML = pendingTasks;
+document.getElementById("total").innerHTML = tasks.length;
